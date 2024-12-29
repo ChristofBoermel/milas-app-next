@@ -9,9 +9,14 @@ module.exports = {
     extend: {
       fontFamily: {
         sans: ['Poppins', 'sans-serif'],
+        test: ['Macondo', 'serif']
       },
       gridTemplateColumns: {
         '70/30': '70% 28%',
+      },
+      backgroundImage: {
+        'stars': "url('../../public/images/stars.jpeg')",
+        'mila': "url('../../public/images/Mila.jpg')",
       },
     },
   },
