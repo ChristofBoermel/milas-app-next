@@ -1,11 +1,7 @@
 import InfoBoxes from "@/components/InfoBoxes";
 
 const CardsPage = () => {
-  return (
-    <div>
-      <InfoBoxes></InfoBoxes>
-    </div>
-  );
+  return <InfoBoxes />;
 };
 
 export default CardsPage;

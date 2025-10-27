@@ -1,18 +1,64 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import logo from "@/public/images/logo-white.png";
-import { FaLanguage } from "react-icons/fa";
+import { FaGlobe } from "react-icons/fa6";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const NavbarComponent = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [showLanguageMenu, setShowLanguageMenu] = useState(false);
+  const languageMenuRef = useRef(null);
   const pathname = usePathname();
+  const { language, changeLanguage, t } = useLanguage();
+
+  const languages = [
+    { code: "en", name: "English" },
+    { code: "de", name: "Deutsch" },
+    { code: "pl", name: "Polski" },
+  ];
+
+  const handleLanguageChange = (lang) => {
+    changeLanguage(lang);
+    setShowLanguageMenu(false);
+  };
+
+  // Close language menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (languageMenuRef.current && !languageMenuRef.current.contains(event.target)) {
+        setShowLanguageMenu(false);
+      }
+    };
+
+    if (showLanguageMenu) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showLanguageMenu]);
+
+  // Helper function to get active link classes
+  const getLinkClasses = (path) => {
+    const baseClasses = "text-white font-medium rounded-lg transition-all duration-300 hover:scale-105";
+    const isActive = pathname === path 
+      ? "bg-gradient-to-r from-purple-600 to-pink-600 shadow-lg shadow-purple-500/50 px-4 py-2" 
+      : "hover:bg-gradient-to-r hover:from-purple-600/40 hover:to-pink-600/40 px-4 py-2";
+    
+    return `${isActive} ${baseClasses}`;
+  };
+
+  const getDesktopLinkClasses = (path) => {
+    return `${getLinkClasses(path)} md:ml-6`;
+  };
 
   return (
-    <nav className="bg-fuchsia-950">
+    <nav className="backdrop-blur-md bg-gradient-to-r from-purple-950/80 via-pink-950/80 to-purple-950/80 border-b border-purple-500/30 shadow-lg shadow-purple-900/20 relative z-50">
       <div className="mx-auto max-w-full px-2 sm:px-6 lg:px-8">
         <div className="relative flex h-20 items-center justify-between">
           <div className="absolute inset-y-0 left-1 flex items-center md:hidden">
@@ -20,7 +66,7 @@ const NavbarComponent = () => {
             <button
               type="button"
               id="mobile-dropdown-button"
-              className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+              className="relative inline-flex items-center justify-center rounded-lg p-2 text-purple-200 hover:text-white hover:bg-gradient-to-r hover:from-purple-600/30 hover:to-pink-600/30 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-purple-400 transition-all duration-300"
               aria-controls="mobile-menu"
               aria-expanded="false"
               onClick={() => setIsMobileMenuOpen((prev) => !prev)}
@@ -47,41 +93,55 @@ const NavbarComponent = () => {
           <div className="flex flex-1 items-center justify-end md:items-stretch md:justify-start">
             {/* <!-- Logo --> */}
             <Link className="flex flex-shrink-0 items-end" href="/">
-              <Image className="h-10 w-auto" src={logo} alt="Tiny Libraries" />
+              <Image className="h-10 w-auto" src={logo} alt="Mila's Birthday Website" />
             </Link>
             <Link
               href="/"
-              className={`${
-                pathname === "/" ? "bg-[#420b27] hidden md:ml-6 md:block" : ""
-              } ${
-                pathname === "/cards"
-                  ? "bg-[#420b27] hidden md:ml-6 md:block"
-                  : ""
-              } text-white hover:bg-[#6f1340] hover:text-white rounded-md px-3 py-2`}
+              className={`${getDesktopLinkClasses("/")} hidden md:block`}
             >
               Home
             </Link>
           </div>
-          {/* <!-- Desktop Menu Hidden below md screens --> */}
+          
+          {/* <!-- Desktop Menu --> */}
           <div className="flex flex-1 items-end justify-end md:items-stretch md:justify-end">
-            <div className="hidden md:ml-6 md:block ">
-              <div className="flex space-x-2 ">
-                <Link
-                  href="/cards"
-                  className={`${
-                    pathname === "/cards" ? "bg-[#420b27]" : ""
-                  } text-white hover:bg-[#6f1340] hover:text-white rounded-md px-3 py-2`}
-                >
-                  Cards
-                </Link>
-                <Link
-                  href="/cards"
-                  className={`${
-                    pathname === "/cards" ? "bg-[#420b27]" : ""
-                  } text-white hover:bg-[#6f1340] hover:text-white rounded-md px-3 py-1`}
-                >
-                  <FaLanguage className="size-8"></FaLanguage>
-                </Link>
+            <div className="hidden md:ml-6 md:block">
+              <div className="flex space-x-2">
+            <Link
+              href="/cards"
+              className={getLinkClasses("/cards")}
+            >
+              Cards
+            </Link>
+            
+            {/* Language Dropdown */}
+            <div className="relative" ref={languageMenuRef}>
+              <button
+                className="text-white font-medium rounded-lg transition-all duration-300 hover:scale-105 hover:bg-gradient-to-r hover:from-purple-600/40 hover:to-pink-600/40 px-3 py-2"
+                aria-label="Change language"
+                onClick={() => setShowLanguageMenu(!showLanguageMenu)}
+              >
+                <FaGlobe className="size-7" />
+              </button>
+              
+              {showLanguageMenu && (
+                <div className="absolute right-0 mt-2 w-48 backdrop-blur-md bg-gradient-to-b from-purple-950/95 to-pink-950/95 rounded-lg border border-purple-500/30 shadow-xl z-50 overflow-hidden">
+                  {languages.map((lang) => (
+                    <button
+                      key={lang.code}
+                      onClick={() => handleLanguageChange(lang.code)}
+                      className={`w-full text-left px-4 py-3 text-white transition-all duration-200 ${
+                        language === lang.code
+                          ? "bg-gradient-to-r from-purple-600/50 to-pink-600/50"
+                          : "hover:bg-purple-600/20"
+                      }`}
+                    >
+                      {lang.name}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
               </div>
             </div>
           </div>
@@ -90,21 +150,17 @@ const NavbarComponent = () => {
 
       {/* <!-- Mobile menu, show/hide based on menu state. --> */}
       {isMobileMenuOpen && (
-        <div id="mobile-menu">
-          <div className="space-y-1 px-2 pb-3 pt-2">
+        <div id="mobile-menu" className="relative z-50 backdrop-blur-md bg-gradient-to-b from-purple-950/90 to-pink-950/90 border-t border-purple-500/30">
+          <div className="space-y-2 px-2 pb-3 pt-2">
             <Link
               href="/"
-              className={`${
-                pathname === "/" ? "bg-[#420b27]" : ""
-              } text-white block rounded-md px-3 py-2 text-base font-medium`}
+              className={`${getLinkClasses("/")} block px-3 py-2 text-base`}
             >
               Home
             </Link>
             <Link
               href="/cards"
-              className={`${
-                pathname === "/cards" ? "bg-[#420b27]" : ""
-              } text-white block rounded-md px-3 py-2 text-base font-medium`}
+              className={`${getLinkClasses("/cards")} block px-3 py-2 text-base`}
             >
               Cards
             </Link>

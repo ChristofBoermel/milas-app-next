@@ -1,6 +1,6 @@
 import "@/assets/styles/globals.css";
 import Navbar from "@/components/Navbar";
-import stars from "@/public/images/stars.jpeg";
+import { LanguageProvider } from "@/contexts/LanguageContext";
 
 const MainLayout = ({ children }) => {
   return (
@@ -13,9 +13,11 @@ const MainLayout = ({ children }) => {
           rel="stylesheet"
         />
       </head>
-      <body className=" h-screen bg-slate-900">
-        <Navbar></Navbar>
-        <main>{children}</main>
+      <body className="bg-slate-900">
+        <LanguageProvider>
+          <Navbar></Navbar>
+          <main>{children}</main>
+        </LanguageProvider>
       </body>
     </html>
   );

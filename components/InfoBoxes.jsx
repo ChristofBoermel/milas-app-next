@@ -1,30 +1,49 @@
+"use client";
+
 import InfoBox from "@/components/InfoBox";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const InfoBoxes = () => {
+  const { t } = useLanguage();
   return (
-    <section>
-      <div className="container-xl lg:container m-auto lg:flex lg:justify-center lg:items-center lg:max-w-3xl">
-        <div className="p-4 rounded-lg">
-          <InfoBox
-            heading="2024"
-            backgroundColor="bg-blue-100"
-            backgroundImage="bg-mila"
-          >
-            Einfach schon 21, du bist echt eine Oma. Ich kann mir gar nicht
-            vorstellen, dass wir uns erst seit 4 und halb Monaten kennen, aber
-            es sich schon wie eine Ewigkeit anfühlt. Wir haben jetzt schon viel
-            erlebt und ich hoffe auf viele weitere schöne, nervige, cringe,
-            traurige, wütende und liebevolle Momente mit dir. Du schenkst mir
-            wirklich viel und bereicherst mich, wie kein anderer vorher. Ich
-            will einfach, dass du weißt, dass du wirklich einzigartig und was
-            besonderes bist. Ich danke dir, dass du in mein Leben gekommen bist.
-            Ich wünsche mir wirklich, dass du weiter so Tollpatschig bleibst,
-            damit ich dich weiterhin so ausslachen kann. Ich kann ja nicht eine
-            perfekte Freundin, ohne maken, haben. Ich liebe dich Frettchen.
+    <div className="relative min-h-screen flex flex-col items-center justify-center px-4 py-12 md:py-20 overflow-hidden">
+      {/* Starry background */}
+      <div 
+        className="fixed inset-0 bg-cover bg-center opacity-30"
+        style={{
+          backgroundImage: "url('/images/stars.jpeg')",
+        }}
+      />
+      
+      {/* Gradient overlay for better text readability */}
+      <div className="fixed inset-0 bg-gradient-to-b from-slate-900 via-slate-900/95 to-slate-900" />
+      
+      {/* Content Container */}
+      <div className="relative z-10 w-full max-w-6xl space-y-12 md:space-y-16 animate-fade-in">
+        
+        {/* 21st Birthday Card */}
+        <div className="flex justify-center animate-slide-up">
+          <InfoBox heading={t("cards.title21")} gradientColor="from-blue-500/20 to-purple-500/20">
+            {t("cards.card21")}
+          </InfoBox>
+        </div>
+
+        {/* 22nd Birthday Card */}
+        <div className="flex justify-center animate-slide-up-delay">
+          <InfoBox heading={t("cards.title22")} gradientColor="from-pink-500/20 to-purple-500/20">
+            {t("cards.card22")}
           </InfoBox>
         </div>
       </div>
-    </section>
+
+      {/* Floating sparkle effects */}
+      <div className="fixed inset-0 pointer-events-none">
+        <div className="absolute top-1/4 left-1/4 w-1 h-1 bg-white rounded-full animate-twinkle" />
+        <div className="absolute top-1/3 right-1/4 w-1 h-1 bg-purple-300 rounded-full animate-twinkle-delay" />
+        <div className="absolute bottom-1/3 left-1/3 w-1 h-1 bg-pink-300 rounded-full animate-twinkle-delay-2" />
+        <div className="absolute top-2/3 right-1/3 w-1 h-1 bg-white rounded-full animate-twinkle" />
+      </div>
+    </div>
   );
 };
 
