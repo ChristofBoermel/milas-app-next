@@ -8,19 +8,19 @@ const HomePage = () => {
   return (
     <div className="relative min-h-screen flex flex-col items-center justify-center px-4 py-20 overflow-hidden">
       {/* Starry background */}
-      <div 
+      <div
         className="fixed inset-0 bg-cover bg-center opacity-30"
         style={{
           backgroundImage: "url('/images/stars.jpeg')",
         }}
       />
-      
+
       {/* Gradient overlay for better text readability */}
       <div className="fixed inset-0 bg-gradient-to-b from-slate-900 via-slate-900/95 to-slate-900" />
-      
+
       {/* Content Container */}
       <div className="relative z-10 flex flex-col items-center justify-center max-w-5xl w-full space-y-8 md:space-y-12 animate-fade-in">
-        
+
         {/* Astronaut Image */}
         <div className="w-full max-w-md md:max-w-lg lg:max-w-xl animate-float">
           <div className="relative shadow-2xl rounded-2xl overflow-hidden border-4 border-purple-500/30">
