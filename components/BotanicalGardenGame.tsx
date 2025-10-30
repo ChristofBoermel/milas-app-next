@@ -21,43 +21,43 @@ const BotanicalGardenGame = () => {
     {
       id: 1,
       imageSrc: "/images/games/bebii.jpeg",
-      prompt: "[Prompt for bebii - to be added]",
+      prompt: "Mausi looking hot as hell",
       imageAlt: "Memory 1"
     },
     {
       id: 2,
       imageSrc: "/images/games/Couple.jpeg",
-      prompt: "[Prompt for Couple - to be added]",
+      prompt: "Die Mausis am mausen",
       imageAlt: "Memory 2"
     },
     {
       id: 3,
       imageSrc: "/images/games/Bebi_cute.jpeg",
-      prompt: "[Prompt for Bebi_cute - to be added]",
+      prompt: "Mausi looking like a snack",
       imageAlt: "Memory 3"
     },
     {
       id: 4,
       imageSrc: "/images/games/Couple3.jpeg",
-      prompt: "[Prompt for Couple3 - to be added]",
+      prompt: "Die hotten Mausis im Urlaub",
       imageAlt: "Memory 4"
     },
     {
       id: 5,
       imageSrc: "/images/games/Kuscheltiere.jpeg",
-      prompt: "[Prompt for Kuscheltiere - to be added]",
+      prompt: "Mausi am kuscheln mit ihrer Gang",
       imageAlt: "Memory 5"
     },
     {
       id: 6,
       imageSrc: "/images/games/Katzii.jpeg",
-      prompt: "[Prompt for Katzii - to be added]",
+      prompt: "Welche Mausi isn das?",
       imageAlt: "Memory 6"
     },
     {
       id: 7,
       imageSrc: "/images/games/Schweini.jpeg",
-      prompt: "[Prompt for Schweini - to be added]",
+      prompt: "Warum ist hier so ein cutes Schweini?",
       imageAlt: "Memory 7"
     },
   ];
