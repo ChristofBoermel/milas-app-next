@@ -1,7 +1,7 @@
 "use client";
 
 import InfoBox from "@/components/InfoBox";
-import CollagePuzzleGame from "@/components/CollagePuzzleGame";
+import BotanicalGardenGame from "@/components/BotanicalGardenGame";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 const Card2025Page = () => {
@@ -30,9 +30,9 @@ const Card2025Page = () => {
           </InfoBox>
         </div>
 
-        {/* Collage Puzzle Game */}
+        {/* Botanical Garden Path Game */}
         <div className="flex justify-center animate-slide-up-delay">
-          <CollagePuzzleGame />
+          <BotanicalGardenGame />
         </div>
 
       </div>
