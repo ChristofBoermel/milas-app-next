@@ -5,7 +5,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import logo from "@/public/images/logo-white.png";
-import { FaGlobe } from "react-icons/fa6";
+import { FaGlobe, FaChevronDown } from "react-icons/fa6";
+import { MdCake } from "react-icons/md";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 interface LanguageOption {
@@ -13,10 +14,18 @@ interface LanguageOption {
   name: string;
 }
 
+interface CardYear {
+  year: number;
+  age: number;
+  available: boolean;
+}
+
 const NavbarComponent = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
   const [showLanguageMenu, setShowLanguageMenu] = useState<boolean>(false);
+  const [showCardsMenu, setShowCardsMenu] = useState<boolean>(false);
   const languageMenuRef = useRef<HTMLDivElement>(null);
+  const cardsMenuRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
   const { language, changeLanguage } = useLanguage();
 
@@ -26,27 +35,37 @@ const NavbarComponent = () => {
     { code: "pl", name: "Polski" },
   ];
 
+  const cardYears: CardYear[] = [
+    { year: 2024, age: 21, available: true },
+    { year: 2025, age: 22, available: true },
+    { year: 2026, age: 23, available: false },
+    { year: 2027, age: 24, available: false },
+  ];
+
   const handleLanguageChange = (lang: "en" | "de" | "pl") => {
     changeLanguage(lang);
     setShowLanguageMenu(false);
   };
 
-  // Close language menu when clicking outside
+  // Close menus when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (languageMenuRef.current && !languageMenuRef.current.contains(event.target as Node)) {
         setShowLanguageMenu(false);
       }
+      if (cardsMenuRef.current && !cardsMenuRef.current.contains(event.target as Node)) {
+        setShowCardsMenu(false);
+      }
     };
 
-    if (showLanguageMenu) {
+    if (showLanguageMenu || showCardsMenu) {
       document.addEventListener("mousedown", handleClickOutside);
     }
 
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [showLanguageMenu]);
+  }, [showLanguageMenu, showCardsMenu]);
 
   // Helper function to get active link classes
   const getLinkClasses = (path: string): string => {
@@ -61,6 +80,9 @@ const NavbarComponent = () => {
   const getDesktopLinkClasses = (path: string): string => {
     return `${getLinkClasses(path)} md:ml-6`;
   };
+
+  // Check if we're on any cards page
+  const isCardsActive = pathname?.startsWith('/cards');
 
   return (
     <nav className="backdrop-blur-md bg-gradient-to-r from-purple-950/80 via-pink-950/80 to-purple-950/80 border-b border-purple-500/30 shadow-lg shadow-purple-900/20 relative z-50">
@@ -112,12 +134,52 @@ const NavbarComponent = () => {
           <div className="flex flex-1 items-end justify-end md:items-stretch md:justify-end">
             <div className="hidden md:ml-6 md:block">
               <div className="flex space-x-2">
-            <Link
-              href="/cards"
-              className={getLinkClasses("/cards")}
-            >
-              Cards
-            </Link>
+            {/* Cards Dropdown */}
+            <div className="relative" ref={cardsMenuRef}>
+              <button
+                className={`flex items-center gap-2 text-white font-medium rounded-lg transition-all duration-300 hover:scale-105 px-4 py-2 ${
+                  isCardsActive
+                    ? "bg-gradient-to-r from-purple-600 to-pink-600 shadow-lg shadow-purple-500/50"
+                    : "hover:bg-gradient-to-r hover:from-purple-600/40 hover:to-pink-600/40"
+                }`}
+                aria-label="Birthday Cards"
+                onClick={() => setShowCardsMenu(!showCardsMenu)}
+              >
+                <MdCake className="size-5" />
+                <span>Cards</span>
+                <FaChevronDown className={`size-3 transition-transform duration-200 ${showCardsMenu ? 'rotate-180' : ''}`} />
+              </button>
+
+              {showCardsMenu && (
+                <div className="absolute left-0 mt-2 w-56 backdrop-blur-md bg-gradient-to-b from-purple-950/95 to-pink-950/95 rounded-lg border border-purple-500/30 shadow-xl z-50 overflow-hidden">
+                  {cardYears.map((card) => (
+                    card.available ? (
+                      <Link
+                        key={card.year}
+                        href={`/cards/${card.year}`}
+                        onClick={() => setShowCardsMenu(false)}
+                        className={`w-full flex items-center justify-between px-4 py-3 text-white transition-all duration-200 ${
+                          pathname === `/cards/${card.year}`
+                            ? "bg-gradient-to-r from-purple-600/50 to-pink-600/50"
+                            : "hover:bg-purple-600/20"
+                        }`}
+                      >
+                        <span>{card.year} - {card.age}th Birthday</span>
+                        <MdCake className="size-5" />
+                      </Link>
+                    ) : (
+                      <div
+                        key={card.year}
+                        className="w-full flex items-center justify-between px-4 py-3 text-purple-300/50 cursor-not-allowed"
+                      >
+                        <span className="italic">{card.year} - Coming Soon</span>
+                        <span className="text-xs font-serif">✨</span>
+                      </div>
+                    )
+                  ))}
+                </div>
+              )}
+            </div>
 
             {/* Language Dropdown */}
             <div className="relative" ref={languageMenuRef}>
@@ -160,15 +222,41 @@ const NavbarComponent = () => {
             <Link
               href="/"
               className={`${getLinkClasses("/")} block px-3 py-2 text-base`}
+              onClick={() => setIsMobileMenuOpen(false)}
             >
               Home
             </Link>
-            <Link
-              href="/cards"
-              className={`${getLinkClasses("/cards")} block px-3 py-2 text-base`}
-            >
-              Cards
-            </Link>
+
+            {/* Cards submenu */}
+            <div className="space-y-1">
+              <div className="text-purple-300 text-sm font-semibold px-3 py-2 flex items-center gap-2">
+                <MdCake className="size-5" />
+                <span>Birthday Cards</span>
+              </div>
+              {cardYears.map((card) => (
+                card.available ? (
+                  <Link
+                    key={card.year}
+                    href={`/cards/${card.year}`}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className={`block pl-10 pr-3 py-2 text-base text-white transition-all duration-200 rounded-lg ${
+                      pathname === `/cards/${card.year}`
+                        ? "bg-gradient-to-r from-purple-600/50 to-pink-600/50"
+                        : "hover:bg-purple-600/20"
+                    }`}
+                  >
+                    {card.year} - {card.age}th Birthday
+                  </Link>
+                ) : (
+                  <div
+                    key={card.year}
+                    className="block pl-10 pr-3 py-2 text-base text-purple-300/50 italic"
+                  >
+                    {card.year} - Coming Soon ✨
+                  </div>
+                )
+              ))}
+            </div>
           </div>
         </div>
       )}
