@@ -8,28 +8,33 @@ import logo from "@/public/images/logo-white.png";
 import { FaGlobe } from "react-icons/fa6";
 import { useLanguage } from "@/contexts/LanguageContext";
 
-const NavbarComponent = () => {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [showLanguageMenu, setShowLanguageMenu] = useState(false);
-  const languageMenuRef = useRef(null);
-  const pathname = usePathname();
-  const { language, changeLanguage, t } = useLanguage();
+interface LanguageOption {
+  code: "en" | "de" | "pl";
+  name: string;
+}
 
-  const languages = [
+const NavbarComponent = () => {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
+  const [showLanguageMenu, setShowLanguageMenu] = useState<boolean>(false);
+  const languageMenuRef = useRef<HTMLDivElement>(null);
+  const pathname = usePathname();
+  const { language, changeLanguage } = useLanguage();
+
+  const languages: LanguageOption[] = [
     { code: "en", name: "English" },
     { code: "de", name: "Deutsch" },
     { code: "pl", name: "Polski" },
   ];
 
-  const handleLanguageChange = (lang) => {
+  const handleLanguageChange = (lang: "en" | "de" | "pl") => {
     changeLanguage(lang);
     setShowLanguageMenu(false);
   };
 
   // Close language menu when clicking outside
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (languageMenuRef.current && !languageMenuRef.current.contains(event.target)) {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (languageMenuRef.current && !languageMenuRef.current.contains(event.target as Node)) {
         setShowLanguageMenu(false);
       }
     };
@@ -44,16 +49,16 @@ const NavbarComponent = () => {
   }, [showLanguageMenu]);
 
   // Helper function to get active link classes
-  const getLinkClasses = (path) => {
+  const getLinkClasses = (path: string): string => {
     const baseClasses = "text-white font-medium rounded-lg transition-all duration-300 hover:scale-105";
-    const isActive = pathname === path 
-      ? "bg-gradient-to-r from-purple-600 to-pink-600 shadow-lg shadow-purple-500/50 px-4 py-2" 
+    const isActive = pathname === path
+      ? "bg-gradient-to-r from-purple-600 to-pink-600 shadow-lg shadow-purple-500/50 px-4 py-2"
       : "hover:bg-gradient-to-r hover:from-purple-600/40 hover:to-pink-600/40 px-4 py-2";
-    
+
     return `${isActive} ${baseClasses}`;
   };
 
-  const getDesktopLinkClasses = (path) => {
+  const getDesktopLinkClasses = (path: string): string => {
     return `${getLinkClasses(path)} md:ml-6`;
   };
 
@@ -102,7 +107,7 @@ const NavbarComponent = () => {
               Home
             </Link>
           </div>
-          
+
           {/* <!-- Desktop Menu --> */}
           <div className="flex flex-1 items-end justify-end md:items-stretch md:justify-end">
             <div className="hidden md:ml-6 md:block">
@@ -113,7 +118,7 @@ const NavbarComponent = () => {
             >
               Cards
             </Link>
-            
+
             {/* Language Dropdown */}
             <div className="relative" ref={languageMenuRef}>
               <button
@@ -123,7 +128,7 @@ const NavbarComponent = () => {
               >
                 <FaGlobe className="size-7" />
               </button>
-              
+
               {showLanguageMenu && (
                 <div className="absolute right-0 mt-2 w-48 backdrop-blur-md bg-gradient-to-b from-purple-950/95 to-pink-950/95 rounded-lg border border-purple-500/30 shadow-xl z-50 overflow-hidden">
                   {languages.map((lang) => (
