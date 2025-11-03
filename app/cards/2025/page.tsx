@@ -25,7 +25,11 @@ const Card2025Page = () => {
 
         {/* 22nd Birthday Card */}
         <div className="flex justify-center animate-slide-up">
-          <InfoBox heading={t("cards.title22")} gradientColor="from-pink-500/20 to-purple-500/20">
+          <InfoBox
+            heading={t("cards.title22")}
+            gradientColor="from-pink-500/20 to-purple-500/20"
+            backgroundImage="/images/games/Profilepic.jpeg"
+          >
             {t("cards.card22")}
           </InfoBox>
         </div>
