@@ -1,58 +1,65 @@
 "use client";
 
-import { FaGift } from "react-icons/fa6";
-import { MdCake } from "react-icons/md";
+import { useState, useRef } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import photos from "./photos.json";
+import styles from "./birthday.module.css";
 
-const Card2026Page = () => {
-  return (
-    <div className="relative min-h-screen flex flex-col items-center justify-center px-4 py-20 overflow-hidden">
-      {/* Starry background */}
-      <div
-        className="fixed inset-0 bg-cover bg-center opacity-30"
-        style={{
-          backgroundImage: "url('/images/stars.jpeg')",
-        }}
-      />
+const chapters = [
+  { id: "Umzug", title: "Ein neues Zuhause.", note: "Ein großer Schritt. Und mittendrin: wir.", label: "01 / Kisten voller Anfang", task: "Öffne die drei kleinen Umzugskartons.", tokens: ["⌂", "♡", "✦"] },
+  { id: "Planetarium", title: "Du, ich & das Universum.", note: "Ein kleiner Ausflug zwischen die Sterne.", label: "02 / Für meinen Mondschein", task: "Lass die drei Sterne für uns leuchten.", tokens: ["✧", "✧", "✧"] },
+  { id: "Berlin", title: "Für dich bis nach Berlin.", note: "Ein veganer REWE. Ein süßes Café. Und du dabei.", label: "03 / Einfach mal los", task: "Ein kleiner Abstecher? Sammle unsere drei Reiseandenken.", tokens: ["↟", "☕", "♡"] },
+  { id: "Family_Winter", title: "Hamburg mit deinen Liebsten.", note: "Deine Mama, deine Schwester und gemeinsame Zeit.", label: "04 / Zusammen ist schöner", task: "Drei kleine Herzen für diesen Besuch.", tokens: ["♡", "♡", "♡"] },
+  { id: "CSD", title: "So schön, du zu sein.", note: "Unser CSD in Hamburg.", label: "05 / Alle Farben von dir", task: "Bring die Farben in dieses Fenster zurück.", tokens: ["✦", "✦", "✦"] },
+];
+const allPhotos = photos as Record<string, string[]>;
 
-      {/* Gradient overlay */}
-      <div className="fixed inset-0 bg-gradient-to-b from-slate-900 via-slate-900/95 to-slate-900" />
+function Bee() {
+  return <svg className={styles.bee} viewBox="0 0 130 90" fill="none" aria-hidden="true"><ellipse cx="49" cy="24" rx="15" ry="22" transform="rotate(-35 49 24)" stroke="currentColor" fill="#f5e9dd"/><ellipse cx="76" cy="24" rx="15" ry="22" transform="rotate(35 76 24)" stroke="currentColor" fill="#f5e9dd"/><ellipse cx="64" cy="51" rx="30" ry="21" stroke="currentColor" fill="#d6b17f"/><path d="M52 32v38m15-39v40m15-33v27" stroke="currentColor" strokeWidth="6"/><circle cx="96" cy="47" r="13" fill="currentColor"/><path d="m99 35 2-12m-7 14-6-11M37 51l-13 3m29 17-6 10m25-10 5 10" stroke="currentColor" strokeWidth="2"/></svg>;
+}
 
-      {/* Content */}
-      <div className="relative z-10 flex flex-col items-center justify-center max-w-2xl animate-fade-in space-y-8">
-        <div className="relative">
-          <MdCake className="size-32 text-purple-400 animate-float" />
-          <div className="absolute inset-0 bg-purple-500/20 blur-3xl rounded-full animate-pulse" />
-        </div>
+function Tracery() {
+ return <svg className={styles.tracery} viewBox="0 0 400 560" preserveAspectRatio="none" fill="none" aria-hidden="true"><path d="M12 550V215Q12 72 200 8Q388 72 388 215V550ZM35 550V220Q35 95 200 35Q365 95 365 220V550M200 35v515M35 310Q35 210 117 170Q200 210 200 310Q200 210 282 170Q365 210 365 310M35 310h330" stroke="currentColor"/><circle cx="200" cy="133" r="43" stroke="currentColor"/><path d="M200 90q-45 43 0 86q45-43 0-86m-43 43q43-45 86 0q-43 45-86 0" stroke="currentColor"/></svg>;
+}
 
-        <h1 className="text-5xl md:text-7xl font-bold bg-gradient-to-br from-purple-400 via-pink-400 to-purple-600 bg-clip-text text-transparent text-center drop-shadow-[0_0_30px_rgba(168,85,247,0.5)]">
-          Coming Soon
-        </h1>
+function Moth({ small = false }: { small?: boolean }) {
+  return <svg className={small ? styles.smallMoth : styles.moth} viewBox="0 0 200 120" fill="none" aria-hidden="true"><path d="M98 56C58 2 9 11 15 51c3 23 35 28 70 19-48 15-32 48 1 34l14-31 14 31c33 14 49-19 1-34 35 9 67 4 70-19 6-40-43-49-83 5" fill="currentColor" fillOpacity=".12" stroke="currentColor" strokeWidth="1.5"/><path d="M100 46v44M99 48 88 30m13 18 11-18M85 59 35 38m48 28-46-7m78 0 50-21m-48 28 46-7" stroke="currentColor" strokeWidth="1.5"/><circle cx="48" cy="49" r="9" stroke="currentColor"/><circle cx="152" cy="49" r="9" stroke="currentColor"/></svg>;
+}
 
-        <div className="backdrop-blur-sm bg-slate-800/30 rounded-2xl p-8 border border-purple-500/20 shadow-xl">
-          <p className="text-xl md:text-2xl text-white/90 text-center leading-relaxed font-serif italic">
-            This year&apos;s birthday celebration is still being prepared with love... ✨
-          </p>
-          <p className="text-lg text-purple-300/70 text-center mt-4">
-            2026 - 23rd Birthday
-          </p>
-        </div>
-
-        <div className="flex gap-4 items-center text-pink-400">
-          <FaGift className="size-6 animate-bounce" />
-          <FaGift className="size-8 animate-pulse" />
-          <FaGift className="size-6 animate-bounce" />
-        </div>
-      </div>
-
-      {/* Floating sparkle effects */}
-      <div className="fixed inset-0 pointer-events-none">
-        <div className="absolute top-1/4 left-1/4 w-1 h-1 bg-white rounded-full animate-twinkle" />
-        <div className="absolute top-1/3 right-1/4 w-1 h-1 bg-purple-300 rounded-full animate-twinkle-delay" />
-        <div className="absolute bottom-1/3 left-1/3 w-1 h-1 bg-pink-300 rounded-full animate-twinkle-delay-2" />
-        <div className="absolute top-2/3 right-1/3 w-1 h-1 bg-white rounded-full animate-twinkle" />
-      </div>
-    </div>
-  );
-};
-
-export default Card2026Page;
+export default function Birthday2026() {
+  const [unlocked, setUnlocked] = useState(false);
+  const [date, setDate] = useState("");
+  const [error, setError] = useState("");
+  const [hint, setHint] = useState(false);
+  const [active, setActive] = useState("welcome");
+  const [collected, setCollected] = useState<Record<string, number[]>>({});
+  const [lightbox, setLightbox] = useState<{ src: string; alt: string } | null>(null);
+  const [letter, setLetter] = useState(false);
+  const [invitation, setInvitation] = useState(false);
+  const contentRef = useRef<HTMLElement>(null);
+  const chapter = chapters.find(c => c.id === active);
+  const completed = chapters.filter(c => (collected[c.id]?.length || 0) === 3).length;
+  function navigate(id: string) { setActive(id); window.scrollTo({ top: 0, behavior: "smooth" }); }
+  function collect(id: string, index: number) { setCollected(old => ({ ...old, [id]: [...new Set([...(old[id] || []), index])] })); }
+  function gallery(group: string, caption: string) {
+    return <div className={styles.collage}>{(allPhotos[group] || []).map((src, i) => <button className={styles.photo} key={src} onClick={() => setLightbox({ src, alt: `${caption} – Bild ${i + 1}` })} aria-label={`${caption}, Bild ${i + 1} vergrößern`}><span className={styles.tape}/><Image src={src} alt={`${caption} – Bild ${i + 1}`} width={620} height={800} sizes="(max-width: 600px) 80vw, 400px" className={styles.photoImage}/><span className={styles.photoCaption}>{["zum Aufheben.", "wir, mittendrin.", "ein kleines Lieblingsstück.", "noch so ein Moment."][i % 4]}</span></button>)}</div>;
+  }
+  return <div className={styles.world}>
+    <div className={styles.grain}/>
+    <header className={styles.topline}><Link href="/cards/2025">← Die anderen Jahre</Link><span>FÜR MILA · MMXXVI</span><span className={styles.edition}>Eine kleine Sammlung von uns</span></header>
+    {!unlocked ? <main className={styles.gate}>
+      <div className={styles.arch}><div className={styles.archInner}><span className={styles.eyebrow}>04. NOVEMBER 2026</span><Moth/><p className={styles.script}>Für dich, mein Mondschein.</p><h1>Manche Türen<br/>öffnest nur <em>du.</em></h1><p className={styles.intro}>Dahinter wartet ein kleines Stück von uns.<br/>Aber zuerst, Bibs: Erinnerst du dich?</p><form onSubmit={e => { e.preventDefault(); const digits = date.replace(/\D/g, ""); if (["01072024", "172024", "1072024", "0172024", "20240701"].includes(digits)) { setUnlocked(true); setError(""); } else setError("Fast, Sliczna. Denk an unsere allererste WhatsApp-Nachricht. Versuch’s noch einmal. ♡"); }}><label htmlFor="our-date">Wann haben wir uns zum ersten Mal auf WhatsApp geschrieben?</label><input id="our-date" value={date} onChange={e => setDate(e.target.value)} placeholder="TT.MM.JJJJ" inputMode="numeric" autoComplete="off" aria-describedby="date-feedback"/><button className={styles.primary} type="submit">Unser kleines Kapitel öffnen <span>↗</span></button><p id="date-feedback" role="status" className={styles.feedback}>{error}</p></form><button className={styles.textButton} onClick={() => setHint(!hint)}>Ein winziger Hinweis?</button>{hint && <p className={styles.hint}>Der erste Tag im Juli. Im Jahr 2024.</p>}<div className={styles.gateFooter}>♡ &nbsp; MIT LIEBE GESAMMELT. NUR FÜR DICH.</div></div></div><div className={styles.gateAside}><span>ein Anfang.<br/>so viele Lieblingsmomente.</span><div className={styles.gatePortrait}><Image src={photos.Favorite_Couple_Pics[2]} alt="Ein gemeinsamer Lieblingsmoment" width={500} height={650} priority/></div><span className={styles.script}>Ein Lieblingsmoment von uns.</span></div>
+    </main> : <>
+      <nav className={styles.booknav} aria-label="Dein Geburtstagsbuch"><button className={active === "welcome" ? styles.selected : ""} onClick={() => navigate("welcome")}>Das Buch</button><button className={chapter ? styles.selected : ""} onClick={() => navigate(chapters[0].id)}>Unsere Erinnerungen</button><button className={active === "portraits" ? styles.selected : ""} onClick={() => navigate("portraits")}>Einfach du</button><button className={active === "letter" ? styles.selected : ""} onClick={() => navigate("letter")}>Dein Brief</button><button className={active === "invite" ? styles.selected : ""} onClick={() => navigate("invite")}>Ein Rendezvous ↗</button></nav>
+      <main ref={contentRef} className={styles.book}>
+      {active === "welcome" && <><section className={styles.hero}><div className={styles.heroCopy}><span className={styles.eyebrow}>EIN GEBURTSTAGSBUCH · KAPITEL 2026</span><Moth small/><h1>Von all den Dingen.<br/>Am liebsten<br/><em>du.</em></h1><p className={styles.script}>Alles Gute zum Geburtstag, Bibs.</p><p>Ein paar Erinnerungen. Ein bisschen Chaos.<br/>Und ein ganzer kleiner Tag für dich.</p><button className={styles.primary} onClick={() => navigate("Umzug")}>Komm, wir blättern zurück <span>↗</span></button></div><div className={styles.heroPictures}><div className={styles.heroArch}><Tracery/></div><div className={styles.heroPhoto}><Image src={photos.Favorite_Couple_Pics[2]} width={600} height={800} sizes="(max-width: 600px) 70vw, 430px" alt="Ihr beide an einem gemeinsamen Tag" priority/><span className={styles.script}>mein liebstes Wir.</span></div><div className={styles.miniPhoto}><Image src={photos.Favorites[6]} width={220} height={280} alt="Mila als Burrito in einer rosa Decke"/><span>Burrito ♡</span></div><span className={styles.marginNote}>für immer<br/>zum Aufheben.</span><Moth/></div></section><div className={styles.beeNote}><Bee/><span>Eine kleine Hummel blättert mit.</span></div><div className={styles.rule}>✦ &nbsp; KLEINE DINGE, DIE BLEIBEN &nbsp; ✦</div><section className={styles.keepsakes}><button onClick={() => navigate("Umzug")}><span>⌂</span><small>01 / DAS ERINNERUNGSBUCH</small><h2>Weißt du noch?</h2><p>Unsere kleinen und großen Abenteuer.</p></button><button onClick={() => navigate("letter")}><span>✉</span><small>02 / EIN VERSIEGELTER BRIEF</small><h2>Für deine Augen.</h2><p>Ein Platz für ein paar Worte von mir.</p></button><button onClick={() => navigate("invite")}><span>❀</span><small>03 / DU HAST ETWAS VOR</small><h2>Halt dir den Tag frei.</h2><p>Ich hab da etwas mit dir geplant.</p></button></section></>}
+      {chapter && <><div className={styles.chapterTabs}>{chapters.map((c, i) => <button key={c.id} onClick={() => navigate(c.id)} aria-current={active === c.id ? "page" : undefined}>{String(i + 1).padStart(2,"0")} <span>{c.id === "Family_Winter" ? "Familie" : c.id}</span>{collected[c.id]?.length === 3 && " ♡"}</button>)}</div><header className={styles.chapterHeading}><span className={styles.eyebrow}>{chapter.label}</span><h1>{chapter.title}</h1><p className={styles.script}>{chapter.note}</p></header><section className={styles.task} aria-label="Kleine Erinnerungsaufgabe"><Moth small/><p>{chapter.task}</p><div className={styles.tokens}>{chapter.tokens.map((token, i) => <button key={i} onClick={() => collect(chapter.id, i)} aria-label={`Andenken ${i + 1} entdecken`} aria-pressed={collected[chapter.id]?.includes(i) || false} className={collected[chapter.id]?.includes(i) ? styles.found : ""}>{collected[chapter.id]?.includes(i) ? "♥" : token}</button>)}</div><p role="status" className={styles.taskStatus}>{collected[chapter.id]?.length === 3 ? "Diese Erinnerung gehört jetzt in unser Buch. ♡" : "Kein Stress, Bibs. Hier läuft uns nichts davon."}</p></section>{gallery(chapter.id, chapter.title)}<div className={styles.chapterBottom}><span>{completed} von 5 Erinnerungen gesammelt</span><button className={styles.primary} onClick={() => navigate(chapters[chapters.indexOf(chapter)+1]?.id || "invite")}>{chapters.indexOf(chapter) === 4 ? "Und jetzt: dein Rendezvous" : "Die nächste Erinnerung"} <span>→</span></button></div></>}
+      {active === "portraits" && <><header className={styles.chapterHeading}><span className={styles.eyebrow}>EINE KLEINE LIEBLINGSSAMMLUNG</span><Moth small/><h1>Einfach <em>du.</em></h1><p className={styles.script}>Bibs. Mondschein. Sliczna. Mein Burrito.</p></header>{gallery("Favorites", "Mila")}{gallery("Favorite_Couple_Pics", "Wir beide")}</>}
+      {active === "letter" && <section className={styles.letterSection}><span className={styles.eyebrow}>EIN PAAR WORTE. NUR FÜR DICH.</span><h1>Mit Liebe<br/><em>versiegelt.</em></h1><button className={`${styles.envelope} ${letter ? styles.openEnvelope : ""}`} onClick={() => setLetter(!letter)} aria-expanded={letter}><span className={styles.envelopeFold}/><span className={styles.seal}>M</span><span className={styles.envelopeLabel}>{letter ? "Wieder verschließen" : "Für Mila · Siegel öffnen"}</span></button>{letter && <article className={styles.letterPaper}><Moth small/><h2>Für dich, Bibs.</h2><p>Hier wartet bald ein Brief von mir auf dich.</p><span className={styles.script}>Mit Liebe.</span></article>}</section>}
+      {active === "invite" && <section className={styles.inviteSection}><span className={styles.eyebrow}>MITTWOCH · 04. NOVEMBER 2026</span><Moth/><h1>Du bist<br/><em>verabredet.</em></h1><p className={styles.script}>Mit mir. Überraschung, Bibs.</p><div className={styles.inviteTimeline}><article><span className={styles.time}>12:00</span><small>DER TAG BEGINNT SÜSS</small><h2>Du. Ich. Boba.</h2><p>Ein kleiner Geburtstagsausflug für uns zwei.</p></article><article className={styles.secretCard}><span className={styles.time}>16:00</span><small>DER REST BLEIBT NOCH EIN GEHEIMNIS</small><h2>Ich führe dich aus.</h2><p>Um 16 Uhr habe ich etwas mit dir vor.<br/>Mach dich hübsch, Bibs — ich führe dich aus.</p><p className={styles.readyNote}>Sei um <strong>15:15 Uhr</strong> fertig. ♡</p></article></div><button className={styles.primary} onClick={() => setInvitation(true)}>{invitation ? "Ein Date mit dir? Immer. ♡" : "Den Tag halte ich mir für dich frei ♡"}</button>{invitation && <p className={styles.script} role="status">Dann ist es ein Date, Sliczna.</p>}<p className={styles.fineprint}>Deine Antwort bleibt hier in diesem kleinen Buch.</p></section>}
+      </main><footer className={styles.footer}><Moth small/><p>Ein bisschen Chaos. Ganz viel du.</p><span>FÜR MILA · 2026 · MIT LIEBE</span><button className={styles.textButton} onClick={() => {setUnlocked(false);setDate("");setActive("welcome");}}>Das Buch wieder schließen</button></footer>
+    </>}
+    {lightbox && <div className={styles.lightbox} role="dialog" aria-modal="true" aria-label={lightbox.alt} onClick={() => setLightbox(null)} onKeyDown={e => {if (e.key === "Escape") setLightbox(null); if (e.key === "Tab") e.preventDefault();}}><button autoFocus onClick={() => setLightbox(null)} aria-label="Foto schließen">Schließen ×</button><Image src={lightbox.src} alt={lightbox.alt} width={1500} height={1500} className={styles.fullPhoto}/></div>}
+  </div>;
+}

@@ -38,7 +38,7 @@ const NavbarComponent = () => {
   const cardYears: CardYear[] = [
     { year: 2024, age: 21, available: true },
     { year: 2025, age: 22, available: true },
-    { year: 2026, age: 23, available: false },
+    { year: 2026, age: 23, available: true },
     { year: 2027, age: 24, available: false },
   ];
 
@@ -83,6 +83,8 @@ const NavbarComponent = () => {
 
   // Check if we're on any cards page
   const isCardsActive = pathname?.startsWith('/cards');
+
+  if (pathname === '/cards/2026') return null;
 
   return (
     <nav className="backdrop-blur-md bg-gradient-to-r from-purple-950/80 via-pink-950/80 to-purple-950/80 border-b border-purple-500/30 shadow-lg shadow-purple-900/20 relative z-50">
